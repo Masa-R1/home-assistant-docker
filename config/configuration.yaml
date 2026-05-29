@@ -1,0 +1,60 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+input_boolean:
+  virtual_light_power:
+    name: Virtual Light Power
+
+input_number:
+  virtual_light_brightness:
+    name: Virtual Light Brightness
+    min: 0
+    max: 255
+    step: 1
+
+input_text:
+  virtual_light_color:
+    name: Virtual Light Color (RGB)
+    initial: "255,255,255"
+
+template:
+- light:
+  - turn_on:
+    - target:
+        entity_id:
+        - input_boolean.virtual_light_power
+      action: input_boolean.turn_on
+    turn_off:
+    - target:
+        entity_id:
+        - input_boolean.virtual_light_power
+      action: input_boolean.turn_off
+    set_level:
+    - target:
+        entity_id:
+        - input_number.virtual_light_brightness
+      data:
+        value: '{{ brightness }}'
+      action: input_number.set_value
+    set_rgb:
+    - target:
+        entity_id:
+        - input_text.virtual_light_color
+      data:
+        value: '{{ r }},{{ g }},{{ b }}'
+      action: input_text.set_value
+    default_entity_id: light.virtual_light
+    name: Virtual Light
+    level: '{{ states(''input_number.virtual_light_brightness'') | int }}'
+    rgb: '{% set rgb = states(''input_text.virtual_light_color'') %} {{ rgb.split('','')
+      | map(''int'') | list }}'
+    state: '{{ is_state(''input_boolean.virtual_light_power'', ''on'') }}'

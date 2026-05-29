@@ -1,0 +1,11 @@
+# Home Assistant runtime files
+config/.storage
+config/home-assistant.log*
+config/*.db*
+
+# Secrets
+.env
+
+# OS junk
+.DS_Store
+Thumbs.db
