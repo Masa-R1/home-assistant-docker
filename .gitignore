@@ -1,11 +1,18 @@
-# Home Assistant runtime files
-config/.storage
+# Ignore everything that is runtime/generated
+config/.storage/
+config/deps/
+config/tts/
+config/tmp/
+config/cache/
+config/.cache/
 config/home-assistant.log*
 config/*.db*
+config/__pycache__/
 
 # Secrets
 .env
+config/secrets.yaml
 
-# OS junk
+# OS
 .DS_Store
 Thumbs.db
