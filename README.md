@@ -2,3 +2,4 @@
 
 ## Installation
 
+To run use command: `docker compose up -d`
